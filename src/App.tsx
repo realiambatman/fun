@@ -256,7 +256,7 @@ function App() {
     if (secretId === 3) {
       // Matrix effect - can be clicked repeatedly
       setIsHacking(true);
-      setTimeout(() => setIsHacking(false), 2000); // Reset after 2 seconds
+      setTimeout(() => setIsHacking(false), 5000); // Reset after 2 seconds
 
       // Create burst of elements
       const burstElements = Array.from({ length: 8 }, (_, i) => ({
