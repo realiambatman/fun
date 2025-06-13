@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
 import {
   Code,
   Terminal,
@@ -20,61 +20,7 @@ import CodeBlock from "./components/CodeBlock";
 import TerminalWindow from "./components/TerminalWindow";
 import MatrixRain from "./components/MatrixRain";
 
-function App() {
-  const [showMessage, setShowMessage] = useState(false);
-  const [revealedSecrets, setRevealedSecrets] = useState<number[]>([]);
-  const [floatingElements, setFloatingElements] = useState<
-    Array<{
-      id: number;
-      delay: number;
-      size: "sm" | "md" | "lg";
-      color: string;
-      type: "star" | "sparkle" | "zap" | "sun" | "moon";
-    }>
-  >([]);
-  const [particles, setParticles] = useState<
-    Array<{ id: number; delay: number }>
-  >([]);
-  const [waves, setWaves] = useState<Array<{ id: number; delay: number }>>([]);
-  const [isHacking, setIsHacking] = useState(false);
-
-  const programmingSecrets = [
-    {
-      id: 1,
-      teaser: "bg na hih ka thei 🕵️‍♀️👀",
-      reveal: "Blanket kom a ihmu! 🛏️😏",
-      icon: Eye,
-      color: "from-blue-500 to-cyan-500",
-      demo: "code",
-    },
-    {
-      id: 2,
-      teaser: "na photo kava mu 📸🐵",
-      reveal: (
-        <div className="space-y-3">
-          <p>😂🐵</p>
-          <img
-            src="/3235.webp"
-            alt="Monkey selfie"
-            className="w-32 h-32 mx-auto rounded-full border-4 border-white shadow-lg object-cover"
-          />
-          <p className="text-sm">huiha! 🤳✨</p>
-        </div>
-      ),
-      icon: Terminal,
-      color: "from-green-500 to-emerald-500",
-      demo: "terminal",
-    },
-    {
-      id: 3,
-      teaser: "The Matrix? 🤔",
-      reveal: null, // No text reveal, just matrix effect
-      icon: Cpu,
-      color: "from-purple-500 to-pink-500",
-      demo: "matrix",
-    },
-  ];
-
+const CodeExamplesSection = memo(() => {
   const codeExamples = [
     {
       language: "JavaScript",
@@ -174,6 +120,81 @@ console.log(result); // 🌟"`,
   overflow: visible !important;
   awesomeness: maximum;
 }`,
+    },
+  ];
+
+  return (
+    <div className="animate-fade-in mb-8">
+      <h3 className="text-2xl font-bold text-cyan-400 mb-6 text-center">
+        💻 na kizil d te
+      </h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-6">
+        {codeExamples.map((example, index) => (
+          <CodeBlock
+            key={index}
+            language={example.language}
+            code={example.code}
+          />
+        ))}
+      </div>
+    </div>
+  );
+});
+
+CodeExamplesSection.displayName = "CodeExamplesSection";
+
+function App() {
+  const [showMessage, setShowMessage] = useState(false);
+  const [revealedSecrets, setRevealedSecrets] = useState<number[]>([]);
+  const [floatingElements, setFloatingElements] = useState<
+    Array<{
+      id: number;
+      delay: number;
+      size: "sm" | "md" | "lg";
+      color: string;
+      type: "star" | "sparkle" | "zap" | "sun" | "moon";
+    }>
+  >([]);
+  const [particles, setParticles] = useState<
+    Array<{ id: number; delay: number }>
+  >([]);
+  const [waves, setWaves] = useState<Array<{ id: number; delay: number }>>([]);
+  const [isHacking, setIsHacking] = useState(false);
+
+  const programmingSecrets = [
+    {
+      id: 1,
+      teaser: "bg na hih ka thei 🕵️‍♀️👀",
+      reveal: "Blanket kom a ihmu! 🛏️😏",
+      icon: Eye,
+      color: "from-blue-500 to-cyan-500",
+      demo: "code",
+    },
+    {
+      id: 2,
+      teaser: "na photo kava mu 📸🐵",
+      reveal: (
+        <div className="space-y-3">
+          <p>😂🐵</p>
+          <img
+            src="/3235.webp"
+            alt="Monkey selfie"
+            className="w-32 h-32 mx-auto rounded-full border-4 border-white shadow-lg object-cover"
+          />
+          <p className="text-sm">huiha! 🤳✨</p>
+        </div>
+      ),
+      icon: Terminal,
+      color: "from-green-500 to-emerald-500",
+      demo: "terminal",
+    },
+    {
+      id: 3,
+      teaser: "The Matrix? 🤔",
+      reveal: null, // No text reveal, just matrix effect
+      icon: Cpu,
+      color: "from-purple-500 to-pink-500",
+      demo: "matrix",
     },
   ];
 
@@ -395,20 +416,7 @@ console.log(result); // 🌟"`,
               </div>
 
               {/* Code Examples - NOW ALWAYS VISIBLE! */}
-              <div className="animate-fade-in mb-8">
-                <h3 className="text-2xl font-bold text-cyan-400 mb-6 text-center">
-                  💻 na kizil d te
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-6">
-                  {codeExamples.map((example, index) => (
-                    <CodeBlock
-                      key={index}
-                      language={example.language}
-                      code={example.code}
-                    />
-                  ))}
-                </div>
-              </div>
+              <CodeExamplesSection />
 
               {revealedSecrets.includes(2) && (
                 <div className="animate-fade-in mb-8">
